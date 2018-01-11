@@ -17,15 +17,29 @@ namespace CryptoBot
             var client = new DiscordSocketClient();
 
             client.Log += Log;
+            client.MessageReceived += MessageReceived;
 
-            string token = "NDAxMTM1OTQyOTkzMzEzNzky.DTl-OA.yk8zSWgyRr0iwLiSI11VsMN7gJE";
+            //connect to discord
+            string token = "";
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
 
 
-
             //block this task until the program is closed
             await Task.Delay(-1);
+        }
+
+        private async Task MessageReceived(SocketMessage message)
+        {
+            if (message.Content == "!ping")
+            {
+                await message.Channel.SendMessageAsync("Pong!");
+            }
+
+            else if (message.Content == "!BTC")
+            {
+                await message.Channel.SendMessageAsync("$0 Bitcoin is SHIT");
+            }
         }
 
 
