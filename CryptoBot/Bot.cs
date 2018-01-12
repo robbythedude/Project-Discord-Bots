@@ -30,8 +30,11 @@ namespace CryptoBot
                         .AddSingleton(config)
                         .AddSingleton<ConnectionService>()
                         .AddSingleton<CommandHandlingService>()
+                        .AddSingleton<LoggingService>()
                         .BuildServiceProvider();
 
+            //initialize the logging service
+            services.GetRequiredService<LoggingService>();
             //connect to discord
             await services.GetRequiredService<ConnectionService>().StartAsync();
             //initialize the command handling service
