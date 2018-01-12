@@ -1,4 +1,5 @@
 
 # After changing this file, check it on:
 #   http://lint.travis-ci.org/
-language: C#
+language: csharp
+solution: CryptoBot.sln
