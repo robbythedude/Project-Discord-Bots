@@ -5,4 +5,4 @@ language: csharp
 solution: CryptoBot.sln
 dist: trusty
 dotnet: 2.0
-mono:none
+mono: none
