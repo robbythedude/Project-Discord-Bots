@@ -12,10 +12,18 @@ namespace CryptoBot.Modules
 
         [Command("price")]
         [Summary("Gets back price of a crypto.")]
-        public async Task BTC([Remainder]string crypto)
+        public async Task Price([Remainder]string crypto)
         {
             string message = await RESTService.GetPrice(crypto);
             await ReplyAsync($"The price of {crypto} is: $ {message}");
+        }
+
+        [Command("binance")]
+        [Summary("Gets back price of a crypto.")]
+        public async Task Binance([Remainder]string crypto)
+        {
+            string message = await RESTService.GetBinancePrice(crypto);
+            await ReplyAsync($"The price of {crypto} on binance is: $ {message}");
         }
     }
 }
