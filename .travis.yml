@@ -8,5 +8,5 @@ dotnet: 2.0
 mono:none
 
 script:
-  -dotnet restore
-  -dotnet build
+  - dotnet restore
+  - dotnet build
