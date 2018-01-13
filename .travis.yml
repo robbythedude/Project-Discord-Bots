@@ -3,3 +3,10 @@
 #   http://lint.travis-ci.org/
 language: csharp
 solution: CryptoBot.sln
+dist: trusty
+dotnet: 2.0
+mono:none
+
+script:
+  -dotnet restore
+  -dotnet build
