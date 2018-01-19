@@ -7,21 +7,25 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using CryptoBot.Services;
+using System.Threading;
 
 namespace CryptoBot
 {
     public class Bot
     {
+        private DiscordSocketClient client = null;
+        private IConfigurationRoot config = null;
+
         /*allows the program to immidiately start in async mode.*/
         public static void Main(string[] args) => new Bot().MainAsync().GetAwaiter().GetResult();
 
         /*the main method*/
         public async Task MainAsync()
         {
-            var config = GetConfiguration();
+            config = GetConfiguration();
             
             //construct the "bot"
-            var client = new DiscordSocketClient();
+            client = new DiscordSocketClient();
             var commands = new CommandService();
 
             var services = new ServiceCollection()
@@ -39,6 +43,10 @@ namespace CryptoBot
             await services.GetRequiredService<ConnectionService>().StartAsync();
             //initialize the command handling service
             services.GetRequiredService<CommandHandlingService>();
+
+            //start the timer that looks at the file for reminders
+            Timer timer = new Timer(CheckIfNeedReminded, "some state", TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
+
             //block this task until the program is closed
             await Task.Delay(-1);
         }
@@ -49,6 +57,21 @@ namespace CryptoBot
         private IConfigurationRoot GetConfiguration()
         {
             return new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory).AddJsonFile("appSettings.json").Build();
+        }
+
+        private void CheckIfNeedReminded(object state)
+        {
+            ulong guildId = UInt64.Parse(config["cryptoServer"]);
+            SocketGuild guild = client.GetGuild(guildId);
+
+            string message = RemindMeService.CheckTime(guild);
+            if (message != "")
+            {
+                ulong channelId = UInt64.Parse(config["cryptoChannel"]);
+                SocketTextChannel channel= guild.GetTextChannel(channelId);
+
+                channel.SendMessageAsync(message);
+            }
         }
     }
 }
