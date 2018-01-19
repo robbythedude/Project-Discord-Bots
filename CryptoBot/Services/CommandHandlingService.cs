@@ -3,6 +3,8 @@ using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CryptoBot.Services
 {
@@ -44,8 +46,22 @@ namespace CryptoBot.Services
 
                         if (!result.IsSuccess)
                         {
-                            await context.Channel.SendMessageAsync(result.ErrorReason);
+                            if (result.Error != CommandError.UnknownCommand)
+                            {
+                                await context.Channel.SendMessageAsync(result.ErrorReason);
+                            }
                         }
+                    }
+                    else if (message.MentionedUsers.Count > 0)
+                    {
+                        SocketUser user = message.MentionedUsers.FirstOrDefault(u => u.Username == _client.CurrentUser.Username);
+                        if (user != null)
+                        {
+                            var context = new SocketCommandContext(_client, message);
+
+                            await context.Channel.SendMessageAsync("You dare disturb my peace?");
+                        }
+
                     }
                 }
             }
