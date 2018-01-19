@@ -186,7 +186,7 @@ namespace CryptoBot.Services
                     DeleteFirstReminder();
 
                     SocketGuildUser user = guild.Users.FirstOrDefault(u => u.Username == reminder.User);
-                    message = $"{user.Mention} you are being reminded about {reminder.Message}";
+                    message = $"{user.Mention} you are being reminded about the message: {reminder.Message}";
                 }
             }
             return message;
