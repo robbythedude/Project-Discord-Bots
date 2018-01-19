@@ -138,12 +138,12 @@ namespace CryptoBot.Services
             string path = GetTextFile();
 
             string firstLine = File.ReadLines(path).First();
-
+            Reminder reminder = null;
             if (!String.IsNullOrEmpty(firstLine))
             {
                 string[] parsedLine = firstLine.Split("|");
 
-                var reminder = new Reminder()
+                 reminder = new Reminder()
                 {
                     TimeToTrigger = parsedLine[0],
                     User = parsedLine[1],
@@ -174,17 +174,18 @@ namespace CryptoBot.Services
         {
             string message = "";
             Reminder reminder = GetFirstReminder();
-
-            DateTime currentTime = DateTime.UtcNow;
-
-            DateTime savedTime = Convert.ToDateTime(reminder.TimeToTrigger);
-
-            if (savedTime <= currentTime)
+            if (reminder != null)
             {
-                DeleteFirstReminder();
-                message = $"@{reminder.User} you are being reminded about {reminder.Message}";
-            }
+                DateTime currentTime = DateTime.UtcNow;
 
+                DateTime savedTime = Convert.ToDateTime(reminder.TimeToTrigger);
+
+                if (savedTime <= currentTime)
+                {
+                    DeleteFirstReminder();
+                    message = $"@{reminder.User} you are being reminded about {reminder.Message}";
+                }
+            }
             return message;
         }
     }
