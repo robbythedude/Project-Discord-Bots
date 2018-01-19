@@ -40,7 +40,7 @@ namespace CryptoBot.Modules
                 string user = Context.User.Username;
                 DateTime currentTime = this.Context.Message.Timestamp.DateTime;
                 RemindMeService.InputIntoDB(stringArray, currentTime, user);
-                await ReplyAsync("Remindme is a work in progres");
+                await ReplyAsync("I will remind you when the time comes.");
             }
             
         }

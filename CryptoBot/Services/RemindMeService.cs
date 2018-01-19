@@ -1,5 +1,6 @@
 ﻿using CryptoBot.Models;
 using CryptoBot.Modules;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -170,7 +171,7 @@ namespace CryptoBot.Services
             return reminders;
         }
 
-        public static string CheckTime()
+        public static string CheckTime(SocketGuild guild)
         {
             string message = "";
             Reminder reminder = GetFirstReminder();
@@ -183,7 +184,9 @@ namespace CryptoBot.Services
                 if (savedTime <= currentTime)
                 {
                     DeleteFirstReminder();
-                    message = $"@{reminder.User} you are being reminded about {reminder.Message}";
+
+                    SocketGuildUser user = guild.Users.FirstOrDefault(u => u.Username == reminder.User);
+                    message = $"{user.Mention} you are being reminded about {reminder.Message}";
                 }
             }
             return message;

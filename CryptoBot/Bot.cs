@@ -61,13 +61,16 @@ namespace CryptoBot
 
         private void CheckIfNeedReminded(object state)
         {
-            string message = RemindMeService.CheckTime();
+            ulong guildId = UInt64.Parse(config["cryptoServer"]);
+            SocketGuild guild = client.GetGuild(guildId);
+
+            string message = RemindMeService.CheckTime(guild);
             if (message != "")
             {
-                ulong server = UInt64.Parse(config["cryptoServer"]);
-                ulong channel = UInt64.Parse(config["cryptoChannel"]);
+                ulong channelId = UInt64.Parse(config["cryptoChannel"]);
+                SocketTextChannel channel= guild.GetTextChannel(channelId);
 
-                client.GetGuild(server).GetTextChannel(channel).SendMessageAsync(message);
+                channel.SendMessageAsync(message);
             }
         }
     }
