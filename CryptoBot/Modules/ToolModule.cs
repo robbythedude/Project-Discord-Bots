@@ -44,5 +44,14 @@ namespace CryptoBot.Modules
             }
             
         }
+
+        [Command("q")]
+        public async Task Query([Remainder] string query)
+        {
+            if (query == "Should I buy doge?")
+            {
+                await ReplyAsync("Yes. For I am a generous god. Doge will make you rich beyond all measure. I will make you King Shive of all Crypto.");
+            }
+        }
     }
 }
