@@ -1,0 +1,6 @@
+{
+    "isTesting" : boolean,
+    "webhookID" : "string", 
+    "webhookToken" : "string", 
+    "apiReturnLimit" : "string"
+}
