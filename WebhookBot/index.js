@@ -10,20 +10,19 @@ var configFile = path.join(__dirname, 'config.json');
 //Quick Sort functions
 ///////////
 function quickSort(arr, left, right){
-   var len = arr.length, 
-   pivot,
-   partitionIndex;
-
-
-  if(left < right){
-    pivot = right;
-    partitionIndex = partition(arr, pivot, left, right);
+    var len = arr.length, 
+    pivot,
+    partitionIndex;
     
-   //sort left and right
-   quickSort(arr, left, partitionIndex - 1);
-   quickSort(arr, partitionIndex + 1, right);
-  }
-  return arr;
+    if(left < right){
+        pivot = right;
+        partitionIndex = partition(arr, pivot, left, right);
+        
+        //sort left and right
+        quickSort(arr, left, partitionIndex - 1);
+        quickSort(arr, partitionIndex + 1, right);
+    }
+    return arr;
 }
 
 function partition(arr, pivot, left, right){
@@ -51,7 +50,7 @@ function swap(arr, i, j){
 
 //Read in config.json asynchronously
 function getConfigs(callback){
-    console.log("Hello: " + Date())
+    console.log("Entering Function - getConfigs")
     fs.readFile(configFile, {encoding: 'utf-8'}, function(err,data){
         if (!err) {
             callback(JSON.parse(data));
@@ -63,7 +62,7 @@ function getConfigs(callback){
 
 //Main
 exports.handler = (event, context, callback) => {
-    console.log("Entering the Oracle Mind" + new Date());
+    console.log("Entering Function - main")
     
     getConfigs(function(configObj){
         
