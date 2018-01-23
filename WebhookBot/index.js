@@ -135,7 +135,7 @@ function constructDiscordMessage(configObj, coinmarketcapJSON){
 
   var message = '';
   var messageArray = [];
-  messageArray.push("Time for the Crypto Update!");
+  messageArray.push("Time for the Top " + configObj.apiReturnLimit + " Crypto Update!");
 
   if(configObj.show1hInfo){
     var topFive = quickSort(coinmarketcapJSON, 0, coinmarketcapJSON.length - 1, "percent_change_1h").reverse();
