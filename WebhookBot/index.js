@@ -9,28 +9,28 @@ var configFile = path.join(__dirname, 'config.json');
 ////////////
 //Quick Sort functions
 ///////////
-function quickSort(arr, left, right){
+function quickSort(arr, left, right, indexString){
   var len = arr.length, 
   pivot,
   partitionIndex;
 
   if(left < right){
     pivot = right;
-    partitionIndex = partition(arr, pivot, left, right);
+    partitionIndex = partition(arr, pivot, left, right, indexString);
 
     //sort left and right
-    quickSort(arr, left, partitionIndex - 1);
-    quickSort(arr, partitionIndex + 1, right);
+    quickSort(arr, left, partitionIndex - 1, indexString);
+    quickSort(arr, partitionIndex + 1, right, indexString);
   }
   return arr;
 }
 
-function partition(arr, pivot, left, right){
-  var pivotValue = parseFloat(arr[pivot].percent_change_1h),
+function partition(arr, pivot, left, right, indexString){
+  var pivotValue = parseFloat(arr[pivot][indexString]),
   partitionIndex = left;
 
   for(var i = left; i < right; i++){
-    if(parseFloat(arr[i].percent_change_1h) < pivotValue){
+    if(parseFloat(arr[i][indexString]) < pivotValue){
       swap(arr, i, partitionIndex);
       partitionIndex++;
     }
@@ -130,10 +130,25 @@ function sendDataToDiscord(configObj, discordMessage, callback){
 }
 
 //Constructs the Discord message to be posted
-function constructDiscordMessage(coinmarketcapJSON){
+function constructDiscordMessage(configObj, coinmarketcapJSON){
   console.log("Entering Function - constructDiscordMessage");
-  var topFive = quickSort(coinmarketcapJSON, 0, coinmarketcapJSON.length - 1).reverse();
-  var message = "Top Five One Hour Gainers: \n1. " + topFive[0].name + " (+%" + topFive[0].percent_change_1h + ")\n2. " + topFive[1].name + " (+%" + topFive[1].percent_change_1h + ")\n3. " + topFive[2].name + " (+%" + topFive[2].percent_change_1h + ")\n4. " + topFive[3].name + " (+%" + topFive[3].percent_change_1h + ")\n5. "+ topFive[4].name + " (+%" + topFive[4].percent_change_1h + ")";
+
+  var message = '';
+  var messageArray = [];
+  messageArray.push("Time for the Crypto Update!");
+
+  if(configObj.show1hInfo){
+    var topFive = quickSort(coinmarketcapJSON, 0, coinmarketcapJSON.length - 1, "percent_change_1h").reverse();
+    messageArray.push("Top Five One Hour Gainers: \n1. " + topFive[0].name + " (+%" + topFive[0].percent_change_1h + ")\n2. " + topFive[1].name + " (+%" + topFive[1].percent_change_1h + ")\n3. " + topFive[2].name + " (+%" + topFive[2].percent_change_1h + ")\n4. " + topFive[3].name + " (+%" + topFive[3].percent_change_1h + ")\n5. "+ topFive[4].name + " (+%" + topFive[4].percent_change_1h + ")");
+  };
+  if(configObj.show24hInfo){
+    var topFive = quickSort(coinmarketcapJSON, 0, coinmarketcapJSON.length - 1, "percent_change_24h").reverse();
+    messageArray.push("Top Five 24 Hour Gainers: \n1. " + topFive[0].name + " (+%" + topFive[0].percent_change_24h + ")\n2. " + topFive[1].name + " (+%" + topFive[1].percent_change_24h + ")\n3. " + topFive[2].name + " (+%" + topFive[2].percent_change_24h + ")\n4. " + topFive[3].name + " (+%" + topFive[3].percent_change_24h + ")\n5. "+ topFive[4].name + " (+%" + topFive[4].percent_change_24h + ")");
+  };
+
+  for (var i = 0, len = messageArray.length; i < len; i++) {
+    message = message.concat(messageArray[i] + "\n\n");
+  }
 
   return message;
 }
@@ -148,7 +163,7 @@ exports.handler = (event, context, callback) => {
     getDataFromCoinMarketCap(configObj, function(coinmarketcapJSON){
       if(!coinmarketcapJSON) {callback(null, "Error making get request to CoinMarketCap.")};  //CoinMarketCap object check
 
-      var message = constructDiscordMessage(coinmarketcapJSON);
+      var message = constructDiscordMessage(configObj, coinmarketcapJSON);
       
       if(!configObj.isTesting){
         sendDataToDiscord(configObj, message, function(isSuccess){
