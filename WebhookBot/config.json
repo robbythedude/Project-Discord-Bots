@@ -2,5 +2,7 @@
     "isTesting" : boolean,
     "webhookID" : "string", 
     "webhookToken" : "string", 
-    "apiReturnLimit" : "string"
+    "apiReturnLimit" : "string",
+    "show1hInfo" : boolean,
+    "show24hInfo" : boolean
 }
