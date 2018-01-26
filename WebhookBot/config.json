@@ -4,5 +4,9 @@
     "webhookToken" : "string", 
     "apiReturnLimit" : "string",
     "show1hInfo" : boolean,
-    "show24hInfo" : boolean
+    "show24hInfo" : boolean,
+    "showCoinsOfInterest" : boolean,
+    "coinsOfInterest" : [
+    	"string"
+    ]
 }
