@@ -140,20 +140,20 @@ function constructDiscordMessage(configObj, coinmarketcapJSON){
   if(configObj.show1hInfo){
     var topFive = quickSort(coinmarketcapJSON, 0, coinmarketcapJSON.length - 1, "percent_change_1h").reverse();
     messageArray.push("Top Five One Hour Gainers: \n1. " 
-      + topFive[0].name + " (+%" + topFive[0].percent_change_1h + ")\n2. " 
-      + topFive[1].name + " (+%" + topFive[1].percent_change_1h + ")\n3. " 
-      + topFive[2].name + " (+%" + topFive[2].percent_change_1h + ")\n4. " 
-      + topFive[3].name + " (+%" + topFive[3].percent_change_1h + ")\n5. "
-      + topFive[4].name + " (+%" + topFive[4].percent_change_1h + ")");
+      + topFive[0].name + " (" + topFive[0].percent_change_1h + "%)\n2. " 
+      + topFive[1].name + " (" + topFive[1].percent_change_1h + "%)\n3. " 
+      + topFive[2].name + " (" + topFive[2].percent_change_1h + "%)\n4. " 
+      + topFive[3].name + " (" + topFive[3].percent_change_1h + "%)\n5. "
+      + topFive[4].name + " (" + topFive[4].percent_change_1h + "%)");
   };
   if(configObj.show24hInfo){
     var topFive = quickSort(coinmarketcapJSON, 0, coinmarketcapJSON.length - 1, "percent_change_24h").reverse();
     messageArray.push("Top Five 24 Hour Gainers: \n1. " 
-      + topFive[0].name + " (+%" + topFive[0].percent_change_24h + ")\n2. " 
-      + topFive[1].name + " (+%" + topFive[1].percent_change_24h + ")\n3. " 
-      + topFive[2].name + " (+%" + topFive[2].percent_change_24h + ")\n4. " 
-      + topFive[3].name + " (+%" + topFive[3].percent_change_24h + ")\n5. "
-      + topFive[4].name + " (+%" + topFive[4].percent_change_24h + ")");
+      + topFive[0].name + " (" + topFive[0].percent_change_24h + "%)\n2. " 
+      + topFive[1].name + " (" + topFive[1].percent_change_24h + "%)\n3. " 
+      + topFive[2].name + " (" + topFive[2].percent_change_24h + "%)\n4. " 
+      + topFive[3].name + " (" + topFive[3].percent_change_24h + "%)\n5. "
+      + topFive[4].name + " (" + topFive[4].percent_change_24h + "%)");
   };
 
   if(configObj.showCoinsOfInterest && configObj.coinsOfInterest.length > 0){
