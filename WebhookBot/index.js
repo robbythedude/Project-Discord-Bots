@@ -135,11 +135,11 @@ function constructDiscordMessage(configObj, coinmarketcapJSON){
 
   var message = '';
   var messageArray = [];
-  messageArray.push("Time for the Top " + configObj.apiReturnLimit + " Crypto Update!");
+  messageArray.push("**Time for the Top " + configObj.apiReturnLimit + " Crypto Update!**");
 
   if(configObj.show1hInfo){
     var topFive = quickSort(coinmarketcapJSON, 0, coinmarketcapJSON.length - 1, "percent_change_1h").reverse();
-    messageArray.push("Top Five One Hour Gainers: \n1. " 
+    messageArray.push("__**Top Five One Hour Gainers**__ \n1. " 
       + topFive[0].name + " (" + topFive[0].percent_change_1h + "%)\n2. " 
       + topFive[1].name + " (" + topFive[1].percent_change_1h + "%)\n3. " 
       + topFive[2].name + " (" + topFive[2].percent_change_1h + "%)\n4. " 
@@ -148,7 +148,7 @@ function constructDiscordMessage(configObj, coinmarketcapJSON){
   };
   if(configObj.show24hInfo){
     var topFive = quickSort(coinmarketcapJSON, 0, coinmarketcapJSON.length - 1, "percent_change_24h").reverse();
-    messageArray.push("Top Five 24 Hour Gainers: \n1. " 
+    messageArray.push("__**Top Five 24 Hour Gainers**__ \n1. " 
       + topFive[0].name + " (" + topFive[0].percent_change_24h + "%)\n2. " 
       + topFive[1].name + " (" + topFive[1].percent_change_24h + "%)\n3. " 
       + topFive[2].name + " (" + topFive[2].percent_change_24h + "%)\n4. " 
@@ -157,7 +157,7 @@ function constructDiscordMessage(configObj, coinmarketcapJSON){
   };
 
   if(configObj.showCoinsOfInterest && configObj.coinsOfInterest.length > 0){
-    var interestMessage = 'Coins Of Interest 24 Hour Gains:';
+    var interestMessage = '__**Coins Of Interest 24 Hour Gains**__';
     for (i = 0; i < coinmarketcapJSON.length; i++){
       if(configObj.coinsOfInterest.indexOf(coinmarketcapJSON[i].name) > -1){
         interestMessage = interestMessage.concat("\n- " + coinmarketcapJSON[i].name + " (" + coinmarketcapJSON[i].percent_change_24h + "%)");
