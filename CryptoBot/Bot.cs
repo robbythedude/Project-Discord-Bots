@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Discord;
 using Discord.WebSocket;
 using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using CryptoBot.Services;
 using System.Threading;
-using System.Collections.Generic;
 
 namespace CryptoBot
 {
