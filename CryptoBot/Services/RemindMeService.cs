@@ -32,7 +32,7 @@ namespace CryptoBot.Services
 
                 List<Reminder> reminders = ReadTextFile();
                 reminders.Add(reminder);
-                reminders = SortTextFile(reminders);
+                reminders = SortList(reminders);
                 WriteToTextFile(reminders);
             }
             return "The time is not a valid format. Please use this format 12hours, 10minutes, 4seconds";
@@ -97,7 +97,7 @@ namespace CryptoBot.Services
 
         }
 
-        private static List<Reminder> ReadTextFile()
+        public static List<Reminder> ReadTextFile()
         {
             string path = GetTextFile();
 
@@ -130,7 +130,6 @@ namespace CryptoBot.Services
             {
                 throw e;
             }
-
             return reminders;
         }
 
@@ -151,7 +150,6 @@ namespace CryptoBot.Services
                     Message = parsedLine[2]
                 };
             }
-
             return reminder;
         }
 
@@ -161,10 +159,16 @@ namespace CryptoBot.Services
 
             var lines = File.ReadLines(path);
             File.WriteAllLines(path, lines.Skip(1).ToArray());
-
         }
 
-        private static List<Reminder> SortTextFile(List<Reminder> reminders)
+        public static void SortTextFile()
+        {
+            List<Reminder> reminders = ReadTextFile();
+            reminders = SortList(reminders);
+            WriteToTextFile(reminders);
+        }
+
+        private static List<Reminder> SortList(List<Reminder> reminders)
         {
             reminders.Sort((x, y) => DateTime.Compare(Convert.ToDateTime(x.TimeToTrigger), Convert.ToDateTime(x.TimeToTrigger)));
 
