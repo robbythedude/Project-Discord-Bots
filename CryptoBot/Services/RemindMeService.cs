@@ -170,8 +170,7 @@ namespace CryptoBot.Services
 
         private static List<Reminder> SortList(List<Reminder> reminders)
         {
-            reminders.Sort((x, y) => DateTime.Compare(Convert.ToDateTime(x.TimeToTrigger), Convert.ToDateTime(x.TimeToTrigger)));
-
+            reminders = reminders.OrderBy(x => x.TimeToTrigger).ToList();
             return reminders;
         }
 
