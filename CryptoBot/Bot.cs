@@ -8,6 +8,7 @@ using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using CryptoBot.Services;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace CryptoBot
 {
@@ -43,6 +44,9 @@ namespace CryptoBot
             await services.GetRequiredService<ConnectionService>().StartAsync();
             //initialize the command handling service
             services.GetRequiredService<CommandHandlingService>();
+
+            //sort the RemindMe file initially
+            RemindMeService.SortTextFile();
 
             //start the timer that looks at the file for reminders
             Timer timer = new Timer(CheckIfNeedReminded, "some state", TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
